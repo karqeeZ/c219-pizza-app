@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import './index.css'
 import pizzaData from "./data";
@@ -31,18 +31,31 @@ function Navbar() {
 }
 
 function Menu() {
-  const numOfPizzas = pizzaData.length
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredPizzas = pizzaData.filter((pizza) =>
+    pizza.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="menu">
       <h2>Our Menu</h2>
-      {numOfPizzas < 0 && (
-        <p>Authentic Italian Cuisine, all from our stone oven</p>
+      <input
+        type="text"
+        placeholder="Search pizzas..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar"
+      />
+      {filteredPizzas.length > 0 ? (
+        <div className="pizzaMenu">
+          {filteredPizzas.map((pizza) => (
+            <Pizza key={pizza.name} pizza={pizza} />
+          ))}
+        </div>
+      ) : (
+        <p>No pizzas match your search.</p>
       )}
-      <div class="pizzaMenu">
-        {pizzaData.map((pizza) => (
-          <Pizza key={pizza.name} pizza={pizza} />
-        ))}
-      </div>
     </div>
   );
 }
@@ -59,7 +72,7 @@ function Footer() {
         </div>
       {isOpen && <button class="btn">Order Now</button>}
       <Navbar/> 
-      {isOpen && <p>Authentic Italian Cuisine</p>}
+      {isOpen && <h4>Authentic Italian Cuisine</h4>}
       </div>
     </footer>
   );

@@ -226,6 +226,10 @@ body {
   margin-top: 20px;
 }
 
+.search-bar {
+  margin-top: 12px;
+}
+
 /*
 SPACING SYSTEM (px)
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 40 / 48 / 64 / 80 / 96 / 128
