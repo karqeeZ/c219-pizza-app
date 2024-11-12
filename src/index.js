@@ -1,17 +1,106 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import './index.css'
+import pizzaData from "./data";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+function Header() {
+  return <h1 class="title-h">Johnson's Pizza Co.</h1>;
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+function Pizza({ pizza }) {
+  return (
+    <div class="pizzaContainer">
+      <img src={pizza.photoName} alt={pizza.name} class="image" />
+      <h3>Name: {pizza.name}</h3>
+      <p>Ingredients: {pizza.ingredients}</p>
+      <p>Price: ${pizza.price}</p>
+    </div>
+  );
+}
+
+function Navbar() {
+  return (
+    <div>
+      <ul class="nav-container">
+        <li class="nav-links"><a href="/">home</a></li>
+        <li class="nav-links"><a href="/">menu</a></li>
+        <li class="nav-links"><a href="/">about</a></li>
+      </ul>
+    </div>
+  );
+}
+
+function Menu() {
+  const numOfPizzas = pizzaData.length
+  return (
+    <div className="menu">
+      <h2>Our Menu</h2>
+      {numOfPizzas < 0 && (
+        <p>Authentic Italian Cuisine, all from our stone oven</p>
+      )}
+      <div class="pizzaMenu">
+        {pizzaData.map((pizza) => (
+          <Pizza key={pizza.name} pizza={pizza} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Footer() {
+  const currentHour = new Date().getHours();
+  const isOpen = currentHour >= 10 && currentHour < 22;
+
+  return (
+    <footer>
+      <div class="footer-container">
+        <div class="message">
+          <p>{isOpen ? "We're currently open" : "Sorry we're closed"}</p>
+        </div>
+      {isOpen && <button class="btn">Order Now</button>}
+      <Navbar/> 
+      {isOpen && <p>Authentic Italian Cuisine</p>}
+      </div>
+    </footer>
+  );
+}
+
+// function Pizza() {
+//   return (
+//     <div>
+//       <img src="pizzas\spinaci.jpg" alt="Pizza Spinaci"></img>
+//       <h3>Name: Pizza Spinaci</h3>
+//       <p>Ingredients: Tomato, mozarella, spinach, and ricotta cheese</p>
+//       <p>Price: $10</p>
+//     </div>
+
+//   );
+// }
+// SOLUTION ^ Activity 2
+
+function App() {
+  return (
+    <div>
+      <Header />
+      <Footer/>
+      <Menu/>
+    </div>
+    // <Pizza
+    //   image="pizzas\spinaci.jpg"
+    //   title="Pizza Spinaci"
+    //   ingredients="Tomato, mozarella, spinach, and ricotta cheese"
+    //   price="10"
+    // />
+    // <Pizza
+    //   image="pizzas\funghi.jpg"
+    //   title="Pizza Funghi"
+    //   ingredients="Tomato, mozarella, onions and mushrooms"
+    //   price="12" 
+    // />
+    /* <Pizza />
+    <Pizza /> */
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
